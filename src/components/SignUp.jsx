@@ -1,7 +1,8 @@
 import React from "react";
+import ProfileForm from "./ProfileForm";
 
 const SignUp = () => {
-  return <div>SignUp</div>;
+  return <ProfileForm mode="signup" />;
 };
 
 export default SignUp;

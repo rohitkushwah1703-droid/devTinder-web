@@ -2,12 +2,13 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { BASE_URL } from "../constants";
 
 const Login = () => {
   const [emailId, setEmailId] = useState("Java@123.com");
   const [password, setPassword] = useState("Java@2233");
+  const [error, setError] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -27,7 +28,7 @@ const Login = () => {
         return navigate("/");
       }
     } catch (error) {
-      console.log(`Error ${error}`);
+      setError(error?.response?.data?.message || "Something went wrong!!");
     }
   };
   return (
@@ -58,7 +59,7 @@ const Login = () => {
                   type="email"
                   value={emailId}
                   placeholder="mail@site.com"
-                  onChange={() => setEmailId(e.target.value)}
+                  onChange={(e) => setEmailId(e.target.value)}
                   required
                 />
               </label>
@@ -84,12 +85,12 @@ const Login = () => {
                 </svg>
 
                 <input
-                  type="password"
+                  type="text"
                   placeholder="Password"
                   value={password}
                   required
                   minLength={8}
-                  onChange={() => setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value)}
                   pattern=".{8,}"
                 />
               </label>
@@ -98,9 +99,13 @@ const Login = () => {
                 Password must be at least 8 characters
               </div>
             </div>
+            <div className="text-red-500">{error}</div>
             <div className="card-actions justify-center">
               <button className="btn btn-primary" onClick={handleLogin}>
                 Login
+              </button>
+              <button className="btn btn-secondary">
+                <Link to={"/signup"}>Signup</Link>
               </button>
             </div>
           </div>
